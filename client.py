@@ -9,7 +9,7 @@ import time
 import glob
 
 
-SAMPLING_INTERVAL = 10
+SAMPLING_INTERVAL = 30
 
 def get_cpu_usage():
     return round(psutil.cpu_percent(interval=1), 2)
