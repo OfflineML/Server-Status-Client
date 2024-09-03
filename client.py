@@ -207,7 +207,7 @@ if __name__ == "__main__":
     if os.path.exists("cache.json"):
         os.remove("cache.json")
     while True:
-        api_config_files = glob.glob("*api_configs*")
+        api_config_files = glob.glob("*_api_configs*")
         if api_config_files:
             with open(api_config_files[0], "r") as f:
                 api_configs = json.load(f)
