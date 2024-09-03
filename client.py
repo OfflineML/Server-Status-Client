@@ -178,13 +178,13 @@ def get_status():
 
     results["cpu_usage"] = get_cpu_usage()
     total_ram, used_ram = get_ram_usage()
-    results["ram_usage"] = round(used_ram/total_ram, 2)
+    results["ram_usage"] = round(used_ram*100/total_ram, 2)
 
     avg_disk_io = get_disk_io()
     # Calculate disk performance once a day only
     if cache.get("disk_speed", None) is None or time.time() - cache["disk_speed"]["timestamp"] > config["disk_speed_sample_interval"]:
         cache["disk_speed"] = {"timestamp": time.time(), "speed": measure_disk_speed(avg_disk_io)}
-        results["disk_usage"] = round((avg_disk_io["reads"]+avg_disk_io["writes"])/cache["disk_speed"]["speed"], 2)
+        results["disk_usage"] = round((avg_disk_io["reads"]+avg_disk_io["writes"])*100/cache["disk_speed"]["speed"], 2)
         results["disk_speed"] = cache["disk_speed"]["speed"]
     else:
         results["disk_usage"] = round((avg_disk_io["reads"]+avg_disk_io["writes"])*100/cache["disk_speed"]["speed"], 2)
