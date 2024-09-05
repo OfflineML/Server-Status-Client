@@ -16,7 +16,7 @@ pip3 install -r requirements.txt
 ## Usage
 Clone the repository using git:
 ```bash
-git clone https://github.com/offlineml/server-status-client.git
+git clone https://github.com/Tetraa-Group/Server-Status-Client.git
 ```
 
 **Before running the client**, you need to download the config file which is named as `<your server name>_api_configs.json` from the [Server Monitor => Servers](https://servermonitor.offlineml.com) and copy it to the application directory (`Server-Status-Client`).
