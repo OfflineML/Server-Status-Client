@@ -241,6 +241,7 @@ def send_recovery_data(api_configs):
         return
 
     current_time = datetime.now()
+    sent_count = 0
     for filename in os.listdir(recovery_dir):
         file_path = os.path.join(recovery_dir, filename)
         file_time = datetime.fromtimestamp(os.path.getctime(file_path))
@@ -256,7 +257,10 @@ def send_recovery_data(api_configs):
             if send_data(api_configs, status):
                 os.remove(file_path)
                 print(f"Recovery data sent and deleted: {filename}")
+                sent_count += 1
                 time.sleep(1)
+                if sent_count >= 10:
+                    break
         except Exception as ex:
             print(f"Error processing recovery file {filename}: {ex}")
 
