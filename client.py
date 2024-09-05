@@ -208,7 +208,7 @@ if __name__ == "__main__":
         os.remove("cache.json")
     while True:
         try:
-            api_config_files = glob.glob("*_api_configs*")
+            api_config_files = glob.glob("api_configs.json")
             if api_config_files:
                 with open(api_config_files[0], "r") as f:
                     api_configs = json.load(f)
