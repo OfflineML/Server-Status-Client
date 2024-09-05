@@ -2,7 +2,7 @@
 
 # Check if required arguments are provided
 if [ $# -ne 2 ]; then
-    echo -e "\e[31mUsage: $0 <app_version> <api_key>\e[0m"
+    echo "\e[31mAPI Key not provided\e[0m"
     exit 1
 fi
 
