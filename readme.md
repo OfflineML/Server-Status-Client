@@ -14,27 +14,25 @@ pip3 install -r requirements.txt
 ``` 
 
 ## Usage
-Before running the client, you need to download the config file which is named as `<your server name>_api_configs.json` from the [Server Monitor => Servers](https://servermonitor.offlineml.com) and copy it to the application directory which is the same directory as `client.py` is located.
+**Before running the client**, you need to download the config file which is named as `<your server name>_api_configs.json` from the [Server Monitor => Servers](https://servermonitor.offlineml.com) and copy it to the application directory which is the same directory as `client.py` is located.
 
 ```bash
 python3 client.py
 ``` 
-To run the client in the background, you can use `nohup` or `screen` or `tmux` or `systemd` service.
 
-### Using nohup
-```bash
-nohup python3 client.py > client.log 2>&1 &
-```
+## On Linux
 
-### Using systemd service
+To run the client in the background, you can use `systemd` service.
+
+#### Using systemd service
 
 ```bash
-sudo nano /etc/systemd/system/client.service
+sudo nano /etc/systemd/system/status_client.service
 ```
 
 ```bash
 [Unit]
-Description=Client Service
+Description=Server Status Client
 After=network.target
 
 [Service]   
@@ -51,6 +49,6 @@ WantedBy=multi-user.target
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable client.service
-sudo systemctl start client.service
+sudo systemctl enable status_client.service
+sudo systemctl start status_client.service
 ```
