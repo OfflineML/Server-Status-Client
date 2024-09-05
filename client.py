@@ -118,7 +118,7 @@ def get_disk_io():
             "writes": (disk_io_new.write_bytes - disk_io_old.write_bytes) / (SAMPLING_INTERVAL * 1024 * 1024)}
 
 
-def get_status():
+def get_status(api_configs):
     try:
         with open("cache.json", "r") as f:
             cache = json.load(f)
@@ -197,9 +197,14 @@ def get_status():
         cache["cores"] = psutil.cpu_count(logical=False)
         results["cores"] = cache["cores"]
 
+    if "version" not in cache or cache["version"] != api_configs["version"]:
+        cache["version"] = api_configs["version"]
+        results["version"] = cache["version"]
+        
     with open("cache.json", "w") as f:
         json.dump(cache, f, indent=4)
 
+    results["api_key"] = api_configs["api_key"]
     return results
 
 
@@ -216,8 +221,7 @@ if __name__ == "__main__":
                 raise FileNotFoundError("No api_configs file found in the local directory.")
             
             t = time.time()
-            status = get_status()
-            status["api_key"] = api_configs["api_key"]
+            status = get_status(api_configs)
             response = requests.post(api_configs["endpoint"], json=status)
             if response.status_code == 200:
                 print("Status sent successfully")
