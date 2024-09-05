@@ -23,9 +23,7 @@ git clone https://github.com/Tetraa-Group/Server-Status-Client.git
 
 ## Installation on Linux
 
-To install the client in the background, you can use `systemd` service.
-
-#### Using systemd service
+You can use `systemd` service to install and run the client as a service.
 
 ```bash
 sudo nano /etc/systemd/system/status_client.service
@@ -47,7 +45,7 @@ Environment="PATH=/usr/bin:/usr/local/bin"
 [Install]
 WantedBy=multi-user.target  
 ```
-
+### Usage
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable status_client.service
