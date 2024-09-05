@@ -283,8 +283,8 @@ if __name__ == "__main__":
             
             if not send_data(api_configs, status):
                 save_to_recovery(status)
-            
-            send_recovery_data(api_configs)
+            else:
+                send_recovery_data(api_configs)
             
             time.sleep(max(0, 60-(time.time()-t)))
         except Exception as ex:
