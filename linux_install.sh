@@ -9,7 +9,7 @@ fi
 # Define variables
 API_KEY=$1
 APP_VERSION=$2
-DOWNLOAD_URL="https://github.com/Tetraa-Group/Server-Status-Client/releases/download/v${APP_VERSION}/client"
+DOWNLOAD_URL="https://github.com/Tetraa-Group/Server-Status-Client/releases/download/${APP_VERSION}/client"
 ENDPOINT="https://api.statusrecorder.ziphio.com/server_data"  # Replace with actual config API URL
 INSTALL_DIR="/opt/server-status-client"
 SERVICE_NAME="server-status-client"
@@ -57,3 +57,12 @@ sudo systemctl enable $SERVICE_NAME
 sudo systemctl start $SERVICE_NAME
 
 echo "Server Status Client has been installed and started as a service."
+echo
+echo "To manage the Server Status Client service:"
+echo "  Start the service:   sudo systemctl start $SERVICE_NAME"
+echo "  Stop the service:    sudo systemctl stop $SERVICE_NAME"
+echo "  Restart the service: sudo systemctl restart $SERVICE_NAME"
+echo "  Check status:        sudo systemctl status $SERVICE_NAME"
+echo
+echo "The service is configured to start automatically on system boot."
+echo "You can view the logs using: sudo journalctl -u $SERVICE_NAME"
