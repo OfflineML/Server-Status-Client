@@ -55,7 +55,7 @@ EOF
 # Reload systemd, enable and start the service
 sudo systemctl daemon-reload
 sudo systemctl enable $SERVICE_NAME
-sudo systemctl start $SERVICE_NAME
+sudo systemctl restart $SERVICE_NAME
 
 echo "Server Status Client has been installed and started as a service."
 echo
