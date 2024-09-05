@@ -14,7 +14,12 @@ pip3 install -r requirements.txt
 ``` 
 
 ## Usage
-**Before running the client**, you need to download the config file which is named as `<your server name>_api_configs.json` from the [Server Monitor => Servers](https://servermonitor.offlineml.com) and copy it to the application directory which is the same directory as `client.py` is located.
+Clone the repository using git:
+```bash
+git clone https://github.com/offlineml/server-status-client.git
+```
+
+**Before running the client**, you need to download the config file which is named as `<your server name>_api_configs.json` from the [Server Monitor => Servers](https://servermonitor.offlineml.com) and copy it to the application directory (`Server-Status-Client`).
 
 ```bash
 python3 client.py
