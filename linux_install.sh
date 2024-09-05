@@ -14,7 +14,14 @@ INSTALL_DIR="/opt/server-status-client"
 SERVICE_NAME="server-status-client"
 
 # Prompt user for API key
-read -p "Enter your API key: " API_KEY
+while true; do
+    read -p "Enter your API key: " API_KEY
+    if [ -n "$API_KEY" ]; then
+        break
+    else
+        echo "API key cannot be empty. Please try again."
+    fi
+done
 
 # Remove existing installation directory if it exists
 sudo rm -rf $INSTALL_DIR
