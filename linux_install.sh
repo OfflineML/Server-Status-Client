@@ -1,18 +1,20 @@
 #!/bin/bash
 
-# Check if required arguments are provided
-if [ $# -ne 2 ]; then
-    echo "Usage: $0 <api_key> <app_version>"
+# Check if required argument is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <app_version>"
     exit 1
 fi
 
 # Define variables
-API_KEY=$1
-APP_VERSION=$2
+APP_VERSION=$1
 DOWNLOAD_URL="https://github.com/Tetraa-Group/Server-Status-Client/releases/download/${APP_VERSION}/client"
 ENDPOINT="https://api.statusrecorder.ziphio.com/server_data"  # Replace with actual config API URL
 INSTALL_DIR="/opt/server-status-client"
 SERVICE_NAME="server-status-client"
+
+# Prompt user for API key
+read -p "Enter your API key: " API_KEY
 
 # Remove existing installation directory if it exists
 sudo rm -rf $INSTALL_DIR
