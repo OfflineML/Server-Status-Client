@@ -207,22 +207,26 @@ if __name__ == "__main__":
     if os.path.exists("cache.json"):
         os.remove("cache.json")
     while True:
-        api_config_files = glob.glob("*_api_configs*")
-        if api_config_files:
-            with open(api_config_files[0], "r") as f:
-                api_configs = json.load(f)
-        else:
-            raise FileNotFoundError("No api_configs file found in the local directory.")
-        
-        t = time.time()
-        status = get_status()
-        status["api_key"] = api_configs["api_key"]
-        response = requests.post(api_configs["endpoint"], json=status)
-        if response.status_code == 200:
-            print("Status sent successfully")
-        else:
-            print(f"Failed to send status: {response.status_code}")
-        time.sleep(max(0, 60-(time.time()-t)))
+        try:
+            api_config_files = glob.glob("*_api_configs*")
+            if api_config_files:
+                with open(api_config_files[0], "r") as f:
+                    api_configs = json.load(f)
+            else:
+                raise FileNotFoundError("No api_configs file found in the local directory.")
+            
+            t = time.time()
+            status = get_status()
+            status["api_key"] = api_configs["api_key"]
+            response = requests.post(api_configs["endpoint"], json=status)
+            if response.status_code == 200:
+                print("Status sent successfully")
+            else:
+                print(f"Failed to send status: {response.status_code}")
+            time.sleep(max(0, 60-(time.time()-t)))
+        except Exception as ex:
+            print("Error on sending status:", ex)
+            time.sleep(10)
 
 
 
