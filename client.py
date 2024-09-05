@@ -7,7 +7,7 @@ import subprocess
 import requests
 import time
 import glob
-
+from datetime import datetime, timedelta
 
 SAMPLING_INTERVAL = 30
 
@@ -208,9 +208,62 @@ def get_status(api_configs):
     return results
 
 
+def send_data(api_configs, status):
+    try:
+        response = requests.post(api_configs["endpoint"], json=status)
+        if response.status_code == 200:
+            print("Status sent successfully")
+            return True
+        else:
+            print(f"Failed to send status: {response.status_code}")
+            return False
+    except Exception as ex:
+        print(f"Error sending status: {ex}")
+        return False
+
+def save_to_recovery(status):
+    recovery_dir = "./recovery"
+    os.makedirs(recovery_dir, exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    filename = f"{recovery_dir}/status_{timestamp}.json"
+    
+    try:
+        with open(filename, "w") as f:
+            json.dump(status, f)
+        print(f"Status saved to recovery: {filename}")
+    except Exception as ex:
+        print(f"Error saving to recovery: {ex}")
+
+def send_recovery_data(api_configs):
+    recovery_dir = "./recovery"
+    if not os.path.exists(recovery_dir):
+        return
+
+    current_time = datetime.now()
+    for filename in os.listdir(recovery_dir):
+        file_path = os.path.join(recovery_dir, filename)
+        file_time = datetime.fromtimestamp(os.path.getctime(file_path))
+        
+        if current_time - file_time > timedelta(days=1):
+            os.remove(file_path)
+            continue
+
+        try:
+            with open(file_path, "r") as f:
+                status = json.load(f)
+            
+            if send_data(api_configs, status):
+                os.remove(file_path)
+                print(f"Recovery data sent and deleted: {filename}")
+                time.sleep(1)
+        except Exception as ex:
+            print(f"Error processing recovery file {filename}: {ex}")
+
 if __name__ == "__main__":
     if os.path.exists("cache.json"):
         os.remove("cache.json")
+    
     while True:
         try:
             api_config_files = glob.glob("api_configs.json")
@@ -222,14 +275,16 @@ if __name__ == "__main__":
             
             t = time.time()
             status = get_status(api_configs)
-            response = requests.post(api_configs["endpoint"], json=status)
-            if response.status_code == 200:
-                print("Status sent successfully")
-            else:
-                print(f"Failed to send status: {response.status_code}")
+            status['timestamp'] = datetime.now().astimezone().isoformat()
+            
+            if not send_data(api_configs, status):
+                save_to_recovery(status)
+            
+            send_recovery_data(api_configs)
+            
             time.sleep(max(0, 60-(time.time()-t)))
         except Exception as ex:
-            print("Error on sending status:", ex)
+            print("Error in main loop:", ex)
             time.sleep(10)
 
 
