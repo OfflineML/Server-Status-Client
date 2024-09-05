@@ -21,13 +21,9 @@ git clone https://github.com/Tetraa-Group/Server-Status-Client.git
 
 **Before running the client**, you need to download the config file which is named as `<your server name>_api_configs.json` from the [Server Monitor => Servers](https://servermonitor.offlineml.com) and copy it to the application directory (`Server-Status-Client`).
 
-```bash
-python3 client.py
-``` 
+## Installation on Linux
 
-## On Linux
-
-To run the client in the background, you can use `systemd` service.
+To install the client in the background, you can use `systemd` service.
 
 #### Using systemd service
 
