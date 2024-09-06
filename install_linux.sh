@@ -21,10 +21,10 @@ sudo rm -rf $INSTALL_DIR
 sudo mkdir -p $INSTALL_DIR
 
 # Download the client
-sudo wget $DOWNLOAD_URL -O $INSTALL_DIR/client
+sudo wget $DOWNLOAD_URL -O $INSTALL_DIR/linux_client
 
 # Make the client executable
-sudo chmod +x $INSTALL_DIR/client
+sudo chmod +x $INSTALL_DIR/linux_client
 
 # Create api_configs.json file
 cat << EOF | sudo tee $INSTALL_DIR/api_configs.json
@@ -42,7 +42,7 @@ Description=Server Status Client
 After=network.target
 
 [Service]
-ExecStart=$INSTALL_DIR/client
+ExecStart=$INSTALL_DIR/linux_client
 WorkingDirectory=$INSTALL_DIR
 Restart=always
 User=root
