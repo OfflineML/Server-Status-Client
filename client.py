@@ -264,7 +264,8 @@ def send_recovery_data(api_configs):
         except Exception as ex:
             print(f"Error processing recovery file {filename}: {ex}")
 
-if __name__ == "__main__":
+
+def run_client():
     if os.path.exists("cache.json"):
         os.remove("cache.json")
     
@@ -291,27 +292,3 @@ if __name__ == "__main__":
             print("Error in main loop:", ex)
             time.sleep(10)
 
-
-
-"""
-       {
-        "frequency": 1,
-        "partitions": {
-            "/": {
-                "display_name": "/",
-                "show": True
-            },
-            "/home": {
-                "display_name": "/home",
-                "show": True
-            },
-            "/tmp": {
-                "display_name": "/tmp",
-                "show": False
-            },
-            
-        },
-        "main_partition": "/",
-        "tracked_apps":[]
-    }
-"""
