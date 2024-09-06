@@ -9,7 +9,7 @@ fi
 # Define variables
 API_KEY=$2
 APP_VERSION=$1
-DOWNLOAD_URL="https://github.com/Tetraa-Group/Server-Status-Client/releases/download/${APP_VERSION}/client"
+DOWNLOAD_URL="https://github.com/Tetraa-Group/Server-Status-Client/releases/download/${APP_VERSION}/linux_client"
 ENDPOINT="https://api.statusrecorder.ziphio.com/server_data"  # Replace with actual config API URL
 INSTALL_DIR="/opt/server-status-client"
 SERVICE_NAME="server-status-client"

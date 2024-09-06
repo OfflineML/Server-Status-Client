@@ -22,7 +22,7 @@ if "%API_KEY%"=="" (
 )
 
 REM Define variables
-set "DOWNLOAD_URL=https://github.com/Tetraa-Group/Server-Status-Client/releases/download/%APP_VERSION%/client.exe"
+set "DOWNLOAD_URL=https://github.com/Tetraa-Group/Server-Status-Client/releases/download/%APP_VERSION%/windows_client.exe"
 echo "DOWNLOAD_URL: %DOWNLOAD_URL%"
 set "ENDPOINT=https://api.statusrecorder.ziphio.com/server_data"
 set "INSTALL_DIR=%ProgramFiles%\Server-Status-Client"
@@ -35,7 +35,7 @@ REM Create installation directory
 mkdir "%INSTALL_DIR%"
 
 REM Download the client
-powershell -Command "Invoke-WebRequest -Uri '%DOWNLOAD_URL%' -OutFile '%INSTALL_DIR%\client.exe'"
+powershell -Command "Invoke-WebRequest -Uri '%DOWNLOAD_URL%' -OutFile '%INSTALL_DIR%\windows_client.exe'"
 
 REM Create api_configs.json file
 echo {> "%INSTALL_DIR%\api_configs.json"
@@ -50,7 +50,7 @@ cd /d "%INSTALL_DIR%"
 
 REM Install the service
 echo Installing the service...
-.\client.exe install
+.\windows_client.exe install
 if %errorlevel% neq 0 (
     echo [31mFailed to install the service.[0m
     exit /b 1
@@ -58,7 +58,7 @@ if %errorlevel% neq 0 (
 
 REM Start the service
 echo Starting the service...
-.\client.exe start
+.\windows_client.exe start
 if %errorlevel% neq 0 (
     echo [31mFailed to start the service.[0m
     exit /b 1
