@@ -1,21 +1,25 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM Check if two arguments are provided
-if "%~2"=="" (
-    echo Usage: %0 APP_VERSION API_KEY
+REM Check if one argument is provided
+if "%~1"=="" (
+    echo Usage: %0 APP_VERSION
     exit /b 1
 )
 
-REM Store the arguments in variables
+REM Store the APP_VERSION argument in a variable
 set "APP_VERSION=%~1"
-set "API_KEY=%~2"
 
-REM Validate inputs
+REM Validate APP_VERSION input
 if "%APP_VERSION%"=="" (
     echo Application version is required.
     exit /b 1
 )
+
+REM Ask for API_KEY in the command line
+set /p "API_KEY=Please enter your Server'sAPI Key: "
+
+REM Validate API_KEY input
 if "%API_KEY%"=="" (
     echo API Key is required.
     exit /b 1
