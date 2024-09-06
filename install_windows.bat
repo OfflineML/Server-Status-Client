@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 REM Check if two arguments are provided
 if "%~2"=="" (
-    echo Usage: %0 <APP_VERSION> <API_KEY>
+    echo Usage: %0 APP_VERSION API_KEY
     exit /b 1
 )
 
@@ -13,11 +13,11 @@ set "API_KEY=%~2"
 
 REM Validate inputs
 if "%APP_VERSION%"=="" (
-    echo [31mApplication version is required.[0m
+    echo Application version is required.
     exit /b 1
 )
 if "%API_KEY%"=="" (
-    echo [31mAPI Key is required.[0m
+    echo API Key is required.
     exit /b 1
 )
 
