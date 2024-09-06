@@ -1,9 +1,15 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM Prompt for APP_VERSION and API_KEY
-set /p APP_VERSION=Enter the application version: 
-set /p API_KEY=Enter the API key: 
+REM Check if two arguments are provided
+if "%~2"=="" (
+    echo Usage: %0 <APP_VERSION> <API_KEY>
+    exit /b 1
+)
+
+REM Store the arguments in variables
+set "APP_VERSION=%~1"
+set "API_KEY=%~2"
 
 REM Validate inputs
 if "%APP_VERSION%"=="" (
@@ -39,19 +45,26 @@ echo     "endpoint": "%ENDPOINT%">> "%INSTALL_DIR%\api_configs.json"
 echo }>> "%INSTALL_DIR%\api_configs.json"
 
 REM Install and start the service
-sc create %SERVICE_NAME% binPath= "%INSTALL_DIR%\client.exe" start= auto
-sc description %SERVICE_NAME% "Server Status Client background service"
-sc start %SERVICE_NAME%
+REM Change to the installation directory
+cd /d "%INSTALL_DIR%"
 
-echo Server Status Client has been installed and started as a service.
-echo.
-echo To manage the Server Status Client service:
-echo   Start the service:   sc start %SERVICE_NAME%
-echo   Stop the service:    sc stop %SERVICE_NAME%
-echo   Restart the service: sc stop %SERVICE_NAME% ^& sc start %SERVICE_NAME%
-echo   Check status:        sc query %SERVICE_NAME%
-echo.
-echo The service is configured to start automatically on system boot.
-echo You can view the logs in the Windows Event Viewer.
+REM Install the service
+echo Installing the service...
+.\client.exe install
+if %errorlevel% neq 0 (
+    echo [31mFailed to install the service.[0m
+    exit /b 1
+)
+
+REM Start the service
+echo Starting the service...
+.\client.exe start
+if %errorlevel% neq 0 (
+    echo [31mFailed to start the service.[0m
+    exit /b 1
+)
+
+echo [32mService installed and started successfully.[0m
+
 
 endlocal

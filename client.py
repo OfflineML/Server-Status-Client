@@ -268,8 +268,6 @@ def send_recovery_data(api_configs, source_dir="./"):
 def run_client(source_dir="./", write_log=None):
     if os.path.exists(os.path.join(source_dir, "cache.json")):
         os.remove(os.path.join(source_dir, "cache.json"))
-    if write_log:
-        write_log("Server Status Client started")
     while True:
         try:
             api_config_files = glob.glob(os.path.join(source_dir, "api_configs.json"))
@@ -282,8 +280,6 @@ def run_client(source_dir="./", write_log=None):
             t = time.time()
             status = get_status(api_configs, source_dir)
             status['timestamp'] = datetime.now().astimezone().isoformat()
-            if write_log:
-                write_log(f"Status: {status}")
             if not send_data(api_configs, status):
                 save_to_recovery(status)
             else:
@@ -291,8 +287,6 @@ def run_client(source_dir="./", write_log=None):
             
             time.sleep(max(0, 60-(time.time()-t)))
         except Exception as ex:
-            if write_log:
-                write_log(f"Error in main loop: {ex}")
             print("Error in main loop:", ex)
             time.sleep(10)
 
