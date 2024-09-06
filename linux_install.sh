@@ -2,7 +2,7 @@
 
 # Check if required arguments are provided
 if [ $# -ne 2 ]; then
-    echo "\e[31mAPI Key not provided\e[0m"
+    echo -e "\e[31mAPI Key is not provided, copy the API key from the server-card and paste it at the end of the command.\e[0m"
     exit 1
 fi
 
