@@ -62,7 +62,7 @@ if %errorlevel% neq 0 (
 
 REM Start the service
 echo Starting the service...
-.\windows_client.exe start
+.\windows_client.exe restart
 if %errorlevel% neq 0 (
     echo [31mFailed to start the service.[0m
     exit /b 1
