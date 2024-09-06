@@ -17,7 +17,7 @@ if "%APP_VERSION%"=="" (
 )
 
 REM Ask for API_KEY in the command line
-set /p "API_KEY=Please enter your Server'sAPI Key: "
+set /p "API_KEY=Please enter your Server's API Key: "
 
 REM Validate API_KEY input
 if "%API_KEY%"=="" (
