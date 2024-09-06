@@ -7,6 +7,7 @@ import win32service
 import win32event
 import servicemanager
 from client import run_client
+import win32api
 
 
 class ServerStatusClient(win32serviceutil.ServiceFramework):
@@ -30,7 +31,13 @@ class ServerStatusClient(win32serviceutil.ServiceFramework):
         self.main()
 
     def main(self):
-        client_thread = threading.Thread(target=run_client, args=())
+        # Read configuration
+        exe_path = win32api.GetModuleFileName(None)
+        if "python" in exe_path.split("\\")[-1].lower():
+            exe_path = os.path.abspath(__file__)
+        source_dir = os.path.dirname(exe_path)
+
+        client_thread = threading.Thread(target=run_client, args=(source_dir,))
         client_thread.start()
         while True:
             servicemanager.LogInfoMsg("Service is running")
@@ -39,6 +46,7 @@ class ServerStatusClient(win32serviceutil.ServiceFramework):
                 break
 
 if __name__ == '__main__':
+
     if len(sys.argv) == 1:
         servicemanager.Initialize()
         servicemanager.PrepareToHostSingle(ServerStatusClient)

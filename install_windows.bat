@@ -1,16 +1,23 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM Check if required arguments are provided
-if "%~2"=="" (
-    echo [31mAPI Key is not provided, copy the API key from the server-card and paste it at the end of the command.[0m
+REM Prompt for APP_VERSION and API_KEY
+set /p APP_VERSION=Enter the application version: 
+set /p API_KEY=Enter the API key: 
+
+REM Validate inputs
+if "%APP_VERSION%"=="" (
+    echo [31mApplication version is required.[0m
+    exit /b 1
+)
+if "%API_KEY%"=="" (
+    echo [31mAPI Key is required.[0m
     exit /b 1
 )
 
 REM Define variables
-set "API_KEY=%~2"
-set "APP_VERSION=%~1"
-set "DOWNLOAD_URL=https://github.com/Tetraa-Group/Server-Status-Client/releases/download/%APP_VERSION%/server_status_client.exe"
+set "DOWNLOAD_URL=https://github.com/Tetraa-Group/Server-Status-Client/releases/download/%APP_VERSION%/client.exe"
+echo "DOWNLOAD_URL: %DOWNLOAD_URL%"
 set "ENDPOINT=https://api.statusrecorder.ziphio.com/server_data"
 set "INSTALL_DIR=%ProgramFiles%\Server-Status-Client"
 set "SERVICE_NAME=ServerStatusClient"
@@ -22,7 +29,7 @@ REM Create installation directory
 mkdir "%INSTALL_DIR%"
 
 REM Download the client
-powershell -Command "Invoke-WebRequest -Uri '%DOWNLOAD_URL%' -OutFile '%INSTALL_DIR%\server_status_client.exe'"
+powershell -Command "Invoke-WebRequest -Uri '%DOWNLOAD_URL%' -OutFile '%INSTALL_DIR%\client.exe'"
 
 REM Create api_configs.json file
 echo {> "%INSTALL_DIR%\api_configs.json"
@@ -32,7 +39,7 @@ echo     "endpoint": "%ENDPOINT%">> "%INSTALL_DIR%\api_configs.json"
 echo }>> "%INSTALL_DIR%\api_configs.json"
 
 REM Install and start the service
-sc create %SERVICE_NAME% binPath= "%INSTALL_DIR%\server_status_client.exe" start= auto
+sc create %SERVICE_NAME% binPath= "%INSTALL_DIR%\client.exe" start= auto
 sc description %SERVICE_NAME% "Server Status Client background service"
 sc start %SERVICE_NAME%
 

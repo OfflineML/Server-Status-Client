@@ -118,9 +118,9 @@ def get_disk_io():
             "writes": (disk_io_new.write_bytes - disk_io_old.write_bytes) / (SAMPLING_INTERVAL * 1024 * 1024)}
 
 
-def get_status(api_configs):
+def get_status(api_configs, source_dir="./"):
     try:
-        with open("cache.json", "r") as f:
+        with open(os.path.join(source_dir, "cache.json"), "r") as f:
             cache = json.load(f)
     except Exception:
         cache = {}
@@ -134,7 +134,7 @@ def get_status(api_configs):
         "tracked_apps":[]
     }
     try:
-        with open("config.json", "r") as f:
+        with open(os.path.join(source_dir, "config.json"), "r") as f:
             config = json.load(f)
     except Exception:
         config = config_template
@@ -173,7 +173,7 @@ def get_status(api_configs):
                 "used": entry["used"]
             }
             results["partitions"].append(entry_formatted)
-    with open("config.json", "w") as f:
+    with open(os.path.join(source_dir, "config.json"), "w") as f:
         json.dump(config, f, indent=4)
 
     results["cpu_usage"] = get_cpu_usage()
@@ -201,7 +201,7 @@ def get_status(api_configs):
         cache["version"] = api_configs["version"]
         results["version"] = cache["version"]
         
-    with open("cache.json", "w") as f:
+    with open(os.path.join(source_dir, "cache.json"), "w") as f:
         json.dump(cache, f, indent=4)
 
     results["api_key"] = api_configs["api_key"]
@@ -221,8 +221,8 @@ def send_data(api_configs, status):
         print(f"Error sending status: {ex}")
         return False
 
-def save_to_recovery(status):
-    recovery_dir = "./recovery"
+def save_to_recovery(status, source_dir="./"):
+    recovery_dir = os.path.join(source_dir, "recovery")
     os.makedirs(recovery_dir, exist_ok=True)
     
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -235,8 +235,8 @@ def save_to_recovery(status):
     except Exception as ex:
         print(f"Error saving to recovery: {ex}")
 
-def send_recovery_data(api_configs):
-    recovery_dir = "./recovery"
+def send_recovery_data(api_configs, source_dir="./"):
+    recovery_dir = os.path.join(source_dir, "recovery")
     if not os.path.exists(recovery_dir):
         return
 
@@ -265,13 +265,13 @@ def send_recovery_data(api_configs):
             print(f"Error processing recovery file {filename}: {ex}")
 
 
-def run_client():
-    if os.path.exists("cache.json"):
-        os.remove("cache.json")
+def run_client(source_dir="./"):
+    if os.path.exists(os.path.join(source_dir, "cache.json")):
+        os.remove(os.path.join(source_dir, "cache.json"))
     
     while True:
         try:
-            api_config_files = glob.glob("api_configs.json")
+            api_config_files = glob.glob(os.path.join(source_dir, "api_configs.json"))
             if api_config_files:
                 with open(api_config_files[0], "r") as f:
                     api_configs = json.load(f)
@@ -285,7 +285,7 @@ def run_client():
             if not send_data(api_configs, status):
                 save_to_recovery(status)
             else:
-                send_recovery_data(api_configs)
+                send_recovery_data(api_configs, source_dir)
             
             time.sleep(max(0, 60-(time.time()-t)))
         except Exception as ex:
