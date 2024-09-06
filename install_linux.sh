@@ -1,14 +1,22 @@
 #!/bin/bash
-
-# Check if required arguments are provided
-if [ $# -ne 2 ]; then
-    echo -e "\e[31mAPI Key is not provided, copy the API key from the server-card and paste it at the end of the command.\e[0m"
+# Check if required argument is provided
+if [ $# -ne 1 ]; then
+    echo -e "\e[31mUsage: $0 APP_VERSION\e[0m"
     exit 1
 fi
 
 # Define variables
-API_KEY=$2
 APP_VERSION=$1
+
+# Prompt user for API Key
+read -p "Please enter your Server's API Key: " API_KEY
+
+# Validate API Key input
+if [ -z "$API_KEY" ]; then
+    echo -e "\e[31mAPI Key is required.\e[0m"
+    exit 1
+fi
+
 DOWNLOAD_URL="https://github.com/Tetraa-Group/Server-Status-Client/releases/download/${APP_VERSION}/linux_client"
 ENDPOINT="https://api.statusrecorder.ziphio.com/server_data"  # Replace with actual config API URL
 INSTALL_DIR="/opt/server-status-client"
