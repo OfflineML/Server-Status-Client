@@ -8,7 +8,6 @@ import win32event
 import servicemanager
 from client import run_client
 import win32api
-from datetime import datetime
 
 
 class ServerStatusClient(win32serviceutil.ServiceFramework):
@@ -38,29 +37,9 @@ class ServerStatusClient(win32serviceutil.ServiceFramework):
             exe_path = os.path.abspath(__file__)
         source_dir = os.path.dirname(exe_path)
 
-        # Create a log file
-        log_file = os.path.join(source_dir, 'server_status_client.log')
         
-        # Function to write log messages
-        def write_log(message):
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            with open(log_file, 'a') as f:
-                f.write(f"{timestamp} - {message}\n")
-        
-        # Log service start
-        write_log("Server Status Client service started")
-        write_log(f"Source directory: {source_dir}")
-        
-        # Log configuration details
-        config_file = os.path.join(source_dir, 'api_configs.json')
-        if os.path.exists(config_file):
-            write_log("Configuration file found")
-        else:
-            write_log("Configuration file not found")
-        
-        client_thread = threading.Thread(target=run_client, args=(source_dir, write_log,))
+        client_thread = threading.Thread(target=run_client, args=(source_dir,))
         client_thread.start()
-        
         while True:
             servicemanager.LogInfoMsg("Service is running")
             rc = win32event.WaitForSingleObject(self.hWaitStop, 5000)

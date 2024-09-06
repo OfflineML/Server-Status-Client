@@ -280,7 +280,7 @@ def run_client(source_dir="./", write_log=None):
                 raise FileNotFoundError("No api_configs file found in the local directory.")
             
             t = time.time()
-            status = get_status(api_configs)
+            status = get_status(api_configs, source_dir)
             status['timestamp'] = datetime.now().astimezone().isoformat()
             if write_log:
                 write_log(f"Status: {status}")
