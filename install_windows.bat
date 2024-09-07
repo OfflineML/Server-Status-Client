@@ -33,7 +33,18 @@ set "INSTALL_DIR=%ProgramFiles%\Server-Status-Client"
 set "SERVICE_NAME=ServerStatusClient"
 
 REM Remove existing installation directory if it exists
-if exist "%INSTALL_DIR%" rmdir /s /q "%INSTALL_DIR%"
+if exist "%INSTALL_DIR%" (
+    cd /d "%INSTALL_DIR%"
+    if exist "windows_client.exe" (
+        echo Stopping existing service...
+        .\windows_client.exe stop
+        echo Removing existing service...
+        .\windows_client.exe remove
+    )
+    cd ..
+    echo Removing existing installation directory...
+    rmdir /s /q "%INSTALL_DIR%"
+)
 
 REM Create installation directory
 mkdir "%INSTALL_DIR%"
@@ -51,7 +62,6 @@ echo }>> "%INSTALL_DIR%\api_configs.json"
 REM Install and start the service
 REM Change to the installation directory
 cd /d "%INSTALL_DIR%"
-.\windows_client.exe stop 
 
 REM Install the service
 echo Installing the service...
