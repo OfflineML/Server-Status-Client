@@ -51,6 +51,7 @@ echo }>> "%INSTALL_DIR%\api_configs.json"
 REM Install and start the service
 REM Change to the installation directory
 cd /d "%INSTALL_DIR%"
+.\windows_client.exe stop 
 
 REM Install the service
 echo Installing the service...
@@ -62,7 +63,7 @@ if %errorlevel% neq 0 (
 
 REM Start the service
 echo Starting the service...
-.\windows_client.exe restart
+.\windows_client.exe start
 if %errorlevel% neq 0 (
     echo [31mFailed to start the service.[0m
     exit /b 1
