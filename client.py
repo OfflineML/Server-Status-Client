@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 SAMPLING_INTERVAL = 30
 
 def get_cpu_usage():
-    return round(psutil.cpu_percent(interval=1), 2)
+    return round(psutil.cpu_percent(interval=5), 2)
 
 def get_ram_usage():
     memory = psutil.virtual_memory()
