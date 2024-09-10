@@ -281,7 +281,7 @@ def run_client(source_dir="./", write_log=None):
             status = get_status(api_configs, source_dir)
             status['timestamp'] = datetime.now().astimezone().isoformat()
             if not send_data(api_configs, status):
-                save_to_recovery(status)
+                save_to_recovery(status, source_dir)
             else:
                 send_recovery_data(api_configs, source_dir)
             
