@@ -30,7 +30,7 @@ set "DOWNLOAD_URL=https://github.com/Tetraa-Group/Server-Status-Client/releases/
 echo "DOWNLOAD_URL: %DOWNLOAD_URL%"
 set "ENDPOINT=https://api.statusrecorder.ziphio.com/server_data"
 set "INSTALL_DIR=%ProgramFiles%\Server-Status-Client"
-set "SERVICE_NAME=ServerStatusClient"
+set "SERVICE_NAME=Server Status Client"
 
 REM Remove existing installation directory if it exists
 if exist "%INSTALL_DIR%" (
