@@ -26,7 +26,7 @@ if "%API_KEY%"=="" (
 )
 
 REM Define variables
-set "DOWNLOAD_URL=https://github.com/Tetraa-Group/Server-Status-Client/releases/download/%APP_VERSION%/windows_client.exe"
+set "DOWNLOAD_URL=https://github.com/OfflineML/Server-Status-Client/releases/download/%APP_VERSION%/windows_client.exe"
 echo "DOWNLOAD_URL: %DOWNLOAD_URL%"
 set "ENDPOINT=https://api.statusrecorder.ziphio.com/server_data"
 set "INSTALL_DIR=%ProgramFiles%\Server-Status-Client"
